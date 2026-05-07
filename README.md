@@ -1,48 +1,92 @@
-This project is a lightweight ESP32-C3 powered RC plane control system designed for small RC aircraft. It is focused purely on flight control and motor driving. It controls dual motors, processes basic flight logic. It is built to be:
+Brainstorming
 
-Lightweight enough for small battery-powered planes Modular Beginner-replicable with standard components What it does:
+I wanted to create a low cost RC plane using simple electronics and a light foam glider. I wanted to make a functional plane for as little money as possible.
 
-The system provides:
+At first, I tried using normal RC airplane parts, but they were too expensive for the budget of the project. Instead, I decided to use:
 
-Motor control Basic stabilization logic Battery-powered operation
+a cheap foam glider as the airframe
+an ESP32-C3 SuperMini clone for wireless control
+coreless motors for flying the plane
+a phone instead of a rc controller
 
-Future upgrades can include GPS navigation, autopilot logic, or telemetry.
+The main idea of the project was:
 
-Why I made it:
+Create a Wi Fi controlled airplane using cheap and easily available components.
 
-I've always seen that rc plane are very expensive. I personally wanted to make something easy and cheap.
+I also wanted the project to:
 
-How to use it:
+- be easy to repair
+- use light components
+- doesnt cost too much
+- be controlled from a phone
 
-Hardware setup Connect ESP32-C3 to motor drivers Attach LiPo battery Upload firmware Flash firmware using Arduino IDE or PlatformIO Select ESP32-C3 board Power on Connect battery System initializes motors and begins control loop Components: ESP32-C3 - 3 dollars DRV8833 motor driver - 2 dollars 2x Coreless DC motors - 2.5 dollars Jumper Wires x 20 - 2 dollars A glider frame - 2.5 dollars 500 mAh battery 3.7v - 4 dollars all availible on aliexpress
+2. Research
 
-          +  -
-          |  |
-          |  |
-----------------------
-|                    |
-|     DRV8833       |
-|                    |
-| VM ----------- +   |  (Battery +)
-| GND ----------- -   |  (Battery -)
-|                    |
-| IN1 ---- GPIO 0    |  (ESP32-C3)
-| IN2 ---- GPIO 1    |
-| IN3 ---- GPIO 2    |
-| IN4 ---- GPIO 3    |
-|                    |
-| OUT1 ---- Motor A  |
-| OUT2 ---- Motor A  |
-| OUT3 ---- Motor B  |
-| OUT4 ---- Motor B  |
-----------------------
-ESP32-C3:
+Before starting the build, I researched different components and methods for controlling the plane.
 
-GND → DRV8833 GND 3.3V → (optional logic VCC if needed) 1x LiPo battery (3.7V)
+Airframe Research
+
+I decided to use a small foam glider costing around 1–2 euros because:
+
+- it is lightweight
+- it already has an aerodynamic shape
+- it is cheap and easy to replace
+- foam is easy to modify and cut
+- Microcontroller Research
+
+I researched several boards and chose the ESP32-C3 SuperMini clone because:
+
+- it has built in Wi-Fi
+- it is very small and light
+- it uses low power
+- it is inexpensive
+
+To control two motors independently, I chose the TB6612 motor driver because:
+
+- it is more efficient than the L298N
+- it supports dual motor control
+- it is compact and light
+- it works well with small DC motors
+
+Battery Research
+
+I selected a 500 mAh LiPo battery because it was just simply the best option otherwise the plane would be underpowered or the battery couldve not produced enough power.
+
+Instead of using a normal RC transmitter and receiver, I decided to use Wi-Fi control from a phone. I researched different apps and found RemoteXY
+, which allows custom phone interfaces for ESP32 projects.
+
+3. Planning:
+
+I worked on the design of the plane and decided to use the foam glider as the frame.
+
+The control system is based on differential thrust. Instead of using moving rudders or control surfaces, the plane will turn by changing the speed of the two motors:
+
+if the left motor slows down, the plane turns left
+if the right motor slows down, the plane turns right
+
+I also planned the wiring connections between:
+
+- Esp32 C3
+- Tb6612 motor driver
+- motors
+- battery
+
+4. App Design
+
+I created the phone control app using RemoteXY.
+
+The app contains:
+
+- motor speed control
+- steering control
+- wireless communication with the ESP32
+
+The phone connects directly to the ESP32 over Wi Fi, so the aircraft can be controlled without an RC transmitter.
+
 
 Here is a screenshot of a 3d model:<img width="552" height="524" alt="image" src="https://github.com/user-attachments/assets/49f49ce8-8f12-495f-8ae1-01902eb04c76" />
  
-<img width="1602" height="1079" alt="image" src="https://github.com/user-attachments/assets/98885958-4c9f-4dca-94c2-e8d2640f9039" />is a screenshot of the wiring diagram which uses different componenets but serves the same purpose:imageinstead of custom made motor drivers we are going to be using a drv8833.
 
-Here is the poster<img width="2000" height="1414" alt="image" src="https://github.com/user-attachments/assets/3b96c857-13d0-44b0-a18c-f9654a64afdd" />
-:5th  Milestone Certificate
+<img width="552" height="524" alt="image" src="https://stasis.hackclub-assets.com/images/1778180597173-wdec39.png" img>
+
+
